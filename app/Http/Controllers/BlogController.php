@@ -28,20 +28,18 @@ class BlogController extends Controller
 
     public function imageUpload(BlogImageUploadRequest $request)
     {
-        $input = $request->all();
 
         //有上傳圖片
-        if (isset($input['upload'])) {
-            $photo = $input['upload'];
+        if ($request->hasFile('upload')) {
+            $photo = $request->file('upload');
             //檔案副檔名
             $file_extension = $photo->getClientOriginalExtension();
             //產生自訂隨機檔案名稱
             $file_name = uniqid() . '.' . $file_extension;
             //檔案相對路徑
-            $file_relative_path = 'uploads/' . $file_name;;
-            //設定圖片檔案相對位置
-            $input['upload'] = $file_relative_path;
-            return response()->json(['url' => url($input['upload'])]);
+            $file_relative_path = 'uploads/' . $file_name;
+            Image::make($photo)->save($file_relative_path);
+            return response()->json(['url' => url($file_relative_path)]);
         } else {
             return response()->json(['error' => ['message' => 'uploaded fail']]);
         }
