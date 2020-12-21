@@ -12,7 +12,8 @@ class BlogController extends Controller
 {
     public function listPage()
     {
-        return view('blog.list', ['heading' => '文章列表', 'subheading' => '瀏覽文章']);
+        $Blogs = Blog::OrderBy('updated_at', 'desc')->paginate(5);
+        return view('blog.list', ['heading' => '文章列表', 'subheading' => '瀏覽文章',  'Blogs' => $Blogs]);
     }
 
     public function createPage()
@@ -23,12 +24,13 @@ class BlogController extends Controller
     public function create(BlogCreateRequest $request)
     {
         $input = $request->all();
+        $input['creator_id'] = session('user')['id'];
         Blog::create($input);
+        return redirect('/');
     }
 
     public function imageUpload(BlogImageUploadRequest $request)
     {
-
         //有上傳圖片
         if ($request->hasFile('upload')) {
             $photo = $request->file('upload');

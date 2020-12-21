@@ -16,5 +16,11 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'content',
+        'creator_id'
     ];
+
+    public function User()
+    {
+        return $this->hasOne('App\Models\User', 'creator_id', 'id');
+    }
 }

@@ -11,6 +11,9 @@
         <div class="form-group">
             <textarea id="ckeditor" name="content" value="{{ old('content') }}" class="vh-20"></textarea>
         </div>
+        <div class="form-group row justify-content-center">
+            <input class="btn btn-primary col-4" type="submit" value="發佈" />
+        </div>
     </div>
 </form>
 <script src="{{ url('js/ckeditor5/index.js') }}"></script>

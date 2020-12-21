@@ -27,9 +27,7 @@ Route::get('/sign-out', [UserController::class, 'signOut']);
 Route::group(['prefix' => 'blog', 'middleware' => 'authcheck'], function () {
 
     Route::get('/create', [BlogController::class, 'createPage']);
-    Route::post('/create', function () {
-        return view('create',  [BlogController::class, 'create']);
-    });
+    Route::post('/create', [BlogController::class, 'create']);
 
     Route::group(['prefix' => '{bid}'], function () {
         Route::get('/edit', function () {
