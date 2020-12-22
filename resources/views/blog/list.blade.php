@@ -9,11 +9,13 @@
         <div class="post-preview">
           <a href="#">
             <h2 class="post-title">
-              {{ $Blog->title }}
+              <a href="{{url("/blog/{$Blog->id}")}}">
+                {{ $Blog->title }}
+              </a>
             </h2>
           </a>
           <p class="post-meta">Posted by
-            <a href="#">Start Bootstrap</a>
+            <a href="#">{{ $Blog->user->name }}</a>
             on  {{ $Blog->created_at }}</p>
         </div>
       @endforeach

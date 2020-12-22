@@ -12,13 +12,25 @@ class BlogController extends Controller
 {
     public function listPage()
     {
-        $Blogs = Blog::OrderBy('updated_at', 'desc')->paginate(5);
+        $Blogs = Blog::OrderBy('id', 'desc')->paginate(5);
         return view('blog.list', ['heading' => '文章列表', 'subheading' => '瀏覽文章',  'Blogs' => $Blogs]);
     }
 
     public function createPage()
     {
-        return view('blog.create', ['heading' => '新增', 'subheading' => '新增文章']);
+        return view('blog.edit', ['heading' => '新增', 'subheading' => '新增文章']);
+    }
+
+    public function editPage($bid)
+    {
+        $Blog = Blog::find($bid);
+        return view('blog.edit', ['heading' => '編輯', 'subheading' => '編輯文章', 'Blog' => $Blog]);
+    }
+
+    public function viewPage($bid)
+    {
+        $Blog = Blog::find($bid);
+        return view('blog.view', ['heading' => '', 'subheading' => '', 'Blog' => $Blog]);
     }
 
     public function create(BlogCreateRequest $request)
@@ -27,6 +39,11 @@ class BlogController extends Controller
         $input['creator_id'] = session('user')['id'];
         Blog::create($input);
         return redirect('/');
+    }
+
+    public function edit()
+    {
+        // edit handle
     }
 
     public function imageUpload(BlogImageUploadRequest $request)

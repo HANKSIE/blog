@@ -30,8 +30,8 @@ Route::group(['prefix' => 'blog', 'middleware' => 'authcheck'], function () {
     Route::post('/create', [BlogController::class, 'create']);
 
     Route::group(['prefix' => '{bid}'], function () {
-        Route::get('/edit', function () {
-            return view('edit');
-        });
+        Route::get('/', [BlogController::class, 'viewPage']);
+        Route::get('/edit', [BlogController::class, 'editPage']);
+        Route::post('/edit', [BlogController::class, 'edit']);
     });
 });

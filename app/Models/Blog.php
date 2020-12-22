@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\User;
+
 class Blog extends Model
 {
     use HasFactory;
@@ -19,8 +21,8 @@ class Blog extends Model
         'creator_id'
     ];
 
-    public function User()
+    public function user()
     {
-        return $this->hasOne('App\Models\User', 'creator_id', 'id');
+        return $this->hasOne(User::class, 'id', 'creator_id');
     }
 }
