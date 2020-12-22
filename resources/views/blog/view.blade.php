@@ -18,12 +18,28 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" href="{{ url("blog/{$Blog->id}/edit") }}">編輯</a> 
-              <form method="POST" action="{{ url("blog/{$Blog->id}/throw") }}">
-                {{ csrf_field() }}
-                @method('DELETE')
-                <input type="hidden" name="bid" value="{{ $Blog->id }}">
-                <input class="dropdown-item" type="submit" value="放入垃圾桶">
-              </form> 
+             
+              @if ($Blog->trashed())
+                <form method="POST" action="{{ url("blog/ashcan/{$Blog->id}/restore") }}">
+                  {{ csrf_field() }}
+                    @method('PUT')
+                    <input type="hidden" name="bid" value="{{ $Blog->id }}">
+                    <input class="dropdown-item" type="submit" value="復原">
+                </form>  
+                <form method="POST" action="{{ url("blog/ashcan/{$Blog->id}/remove") }}">
+                  {{ csrf_field() }}
+                  @method('DELETE')
+                  <input type="hidden" name="bid" value="{{ $Blog->id }}">
+                  <input class="dropdown-item" type="submit" value="永久移除">
+                </form>
+              @else
+                <form method="POST" action="{{ url("blog/{$Blog->id}/throw") }}">
+                  {{ csrf_field() }}
+                  @method('DELETE')
+                  <input type="hidden" name="bid" value="{{ $Blog->id }}">
+                  <input class="dropdown-item" type="submit" value="放入垃圾桶">
+                </form> 
+              @endif
             </div>
           </div>
         @endif

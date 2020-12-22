@@ -5,7 +5,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
-      @foreach ($Blogs as $Blog)
+      @forelse ($Blogs as $Blog)
         <div class="post-preview">
           <a href="#">
             <h2 class="post-title">
@@ -18,8 +18,10 @@
             <a href="#">{{ $Blog->user->name }}</a>
             on  {{ $Blog->created_at }}</p>
         </div>
-      @endforeach
-      
+      @empty
+          <h1 class="text-center">沒有文章</h1>
+      @endforelse
+
       <!-- Pager -->
       <div class="row justify-content-center">
         {{ $Blogs->links('vendor.pagination.bootstrap-4') }}

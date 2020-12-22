@@ -38,6 +38,7 @@
             <li class="nav-item dropdown" style="cursor: pointer">
               <a class="dropdown-toggle nav-link" data-toggle="dropdown">文章</a>
               <div class="dropdown-menu">
+                <a class="dropdown-item" href="{{url('/blog/manage')}}">管理我的文章</a>
                 <a class="dropdown-item" href="{{url('/blog/create')}}">新增</a>
                 <a class="dropdown-item" href="{{url('/blog/ashcan')}}">垃圾桶</a>
               </div>

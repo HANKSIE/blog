@@ -10,6 +10,9 @@
             <div class="form-group">
                 @include('components.editor')
             </div>
+            <div class="form-group">
+                @include('components.validationErrorMessage')
+            </div>
             <div class="form-group row justify-content-center">
                 <input class="btn btn-primary col-4" type="submit" value="發佈" />
             </div>

@@ -18,7 +18,10 @@ class BlogAuth
     public function handle(Request $request, Closure $next)
     {
         $bid = $request->bid;
-        $Blog = Blog::find($bid);
+        $Blog = Blog::withTrashed()->find($bid);
+        if (is_null($Blog)) {
+            return abort('404');
+        }
         return session('user')['id'] == $Blog->creator_id ? $next($request) : abort('403');
     }
 }

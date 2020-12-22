@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\BlogCreateRequest;
 use App\Http\Requests\BlogEditRequest;
-use App\Http\Requests\BlogRemoveRequest;
 use App\Http\Requests\BlogImageUploadRequest;
 use App\Models\Blog;
 use Intervention\Image\Facades\Image;
@@ -15,7 +13,7 @@ class BlogController extends Controller
     public function listPage()
     {
         $Blogs = Blog::OrderBy('id', 'desc')->paginate(7);
-        return view('blog.list', ['heading' => '文章列表', 'subheading' => '瀏覽文章',  'Blogs' => $Blogs]);
+        return view('blog.list', ['heading' => '文章列表', 'subheading' => '瀏覽文章', 'Blogs' => $Blogs]);
     }
 
     public function createPage()
@@ -25,7 +23,7 @@ class BlogController extends Controller
 
     public function editPage($bid)
     {
-        $Blog = Blog::find($bid);
+        $Blog = Blog::withTrashed()->find($bid);
         return view('blog.edit', ['heading' => '編輯', 'subheading' => '編輯文章', 'title' => $Blog->title, 'content' => $Blog->content, 'bid' => $bid]);
     }
 
@@ -38,7 +36,19 @@ class BlogController extends Controller
     public function ashcanPage()
     {
         $Blogs = Blog::onlyTrashed()->OrderBy('id', 'desc')->paginate(5);
-        return view('blog.ashcan', ['heading' => '垃圾桶', 'subheading' => '您封存的貼文',  'Blogs' => $Blogs]);
+        return view('blog.ashcan.list', ['heading' => '垃圾桶', 'subheading' => '您封存的貼文',  'Blogs' => $Blogs]);
+    }
+
+    public function managePage()
+    {
+        $Blogs = Blog::where('creator_id', session('user')['id'])->OrderBy('id', 'desc')->paginate(5);
+        return view('blog.list', ['heading' => '我的文章', 'Blogs' => $Blogs]);
+    }
+
+    public function ashcanViewPage($bid)
+    {
+        $Blog = Blog::onlyTrashed()->where('creator_id', session('user')['id'])->find($bid);
+        return view('blog.view', ['Blog' => $Blog]);
     }
 
     public function create(BlogCreateRequest $request)
@@ -52,18 +62,29 @@ class BlogController extends Controller
     public function edit(BlogEditRequest $request)
     {
         $input = $request->all();
-        $Blog = Blog::find($input['bid']);
+        $Blog = Blog::withTrashed()->find($input['bid']);
         $Blog->title = $input['title'];
         $Blog->content = $input['content'];
         $Blog->save();
-        return redirect("/blog/{$input['bid']}");
-        // edit handle
+        return redirect($Blog->trashed() ? "blog/ashcan/{$input['bid']}" : "/blog/{$input['bid']}");
     }
 
-    public function throw(BlogRemoveRequest $request)
+    public function throw($bid)
     {
-        Blog::find($request->bid)->delete();
+        Blog::find($bid)->delete();
         return redirect('/');
+    }
+
+    public function restore($bid)
+    {
+        Blog::onlyTrashed()->find($bid)->restore();
+        return redirect("/blog/ashcan");
+    }
+
+    public function remove($bid)
+    {
+        Blog::onlyTrashed()->find($bid)->forceDelete();
+        return redirect("/blog/ashcan");
     }
 
     public function imageUpload(BlogImageUploadRequest $request)

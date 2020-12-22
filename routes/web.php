@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BlogController;
+use App\Models\Blog;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,15 +28,26 @@ Route::get('/sign-out', [UserController::class, 'signOut']);
 
 Route::group(['prefix' => 'blog'], function () {
     Route::get('/', [BlogController::class, 'listPage']);
+    Route::get('/manage', [BlogController::class, 'managePage']);
+
     Route::group(['middleware' => 'auth.check'], function () {
         Route::get('/create', [BlogController::class, 'createPage']);
         Route::post('/create', [BlogController::class, 'create']);
-        Route::get('/ashcan', [BlogController::class, 'ashcanPage']);
+    });
+
+    Route::group(['prefix' => 'ashcan', 'middleware' => 'auth.check'], function () {
+        Route::get('/', [BlogController::class, 'ashcanPage']);
+
+        Route::group(['prefix' => '{bid}', 'middleware' => 'blog.owner.is.user'], function () {
+            Route::get('/', [BlogController::class, 'ashcanViewPage']);
+            Route::put('/restore', [BlogController::class, 'restore']);
+            Route::delete('/remove', [BlogController::class, 'remove']);
+        });
     });
 
     Route::group(['prefix' => '{bid}'], function () {
         Route::get('/', [BlogController::class, 'viewPage']);
-        Route::group(['middleware' => ['auth.check', 'blog.auth.check']], function () {
+        Route::group(['middleware' => ['auth.check', 'blog.owner.is.user']], function () {
             Route::get('/edit', [BlogController::class, 'editPage']);
             Route::put('/edit', [BlogController::class, 'edit']);
             Route::delete('/throw', [BlogController::class, 'throw']);

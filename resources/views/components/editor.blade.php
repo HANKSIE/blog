@@ -1,9 +1,5 @@
 <textarea id="ckeditor" name="content" class="vh-20">
-    @if (isset($content))
-        {{ $content }}
-    @else
-        {{old('content')}}
-    @endif
+    {{ isset($content) ? $content : old('content') }}
 </textarea>
 <script src="{{ url('js/ckeditor5/index.js') }}"></script>
 <script src="{{ url('js/ckeditor5/config.js') }}"></script>
