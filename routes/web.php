@@ -34,8 +34,8 @@ Route::group(['prefix' => 'blog'], function () {
 
     Route::group(['prefix' => '{bid}'], function () {
         Route::get('/', [BlogController::class, 'viewPage']);
-        Route::get('/edit', [BlogController::class, 'editPage']);
         Route::group(['middleware' => ['auth.check', 'blog.auth.check']], function () {
+            Route::get('/edit', [BlogController::class, 'editPage']);
             Route::put('/edit', [BlogController::class, 'edit']);
             Route::delete('/throw', [BlogController::class, 'throw']);
         });
