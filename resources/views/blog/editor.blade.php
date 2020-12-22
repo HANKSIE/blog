@@ -10,13 +10,7 @@
         @endif
         
         <div class="form-group">
-            <input class="col pt-3 pb-3" type="text" name="title" placeholder="標題" value="
-                @if (isset($Blog))
-                    {{$Blog->title}}
-                @else
-                    {{old('title')}}
-                @endif
-            "/>
+            <input class="col pt-3 pb-3" type="text" name="title" placeholder="標題" value="@if (isset($Blog)){{$Blog->title}}@else{{old('title')}} @endif"/>
         </div>
         <div class="form-group">
             <textarea id="ckeditor" name="content" class="vh-20">

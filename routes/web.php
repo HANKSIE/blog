@@ -24,14 +24,19 @@ Route::post('/sign-up', [UserController::class, 'signUp']);
 
 Route::get('/sign-out', [UserController::class, 'signOut']);
 
-Route::group(['prefix' => 'blog', 'middleware' => 'authcheck'], function () {
+Route::group(['prefix' => 'blog'], function () {
 
-    Route::get('/create', [BlogController::class, 'createPage']);
-    Route::post('/create', [BlogController::class, 'create']);
+    Route::group(['middleware' => 'authcheck'], function () {
+        Route::get('/create', [BlogController::class, 'createPage']);
+        Route::post('/create', [BlogController::class, 'create']);
+    });
 
     Route::group(['prefix' => '{bid}'], function () {
         Route::get('/', [BlogController::class, 'viewPage']);
-        Route::get('/edit', [BlogController::class, 'editPage']);
-        Route::post('/edit', [BlogController::class, 'edit']);
+        Route::group(['middleware' => 'authcheck'], function () {
+            Route::get('/edit', [BlogController::class, 'editPage']);
+            Route::post('/edit', [BlogController::class, 'edit']);
+            Route::delete('/delete', [BlogController::class, 'delete']);
+        });
     });
 });

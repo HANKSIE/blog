@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\BlogCreateRequest;
+use App\Http\Requests\BlogEditRequest;
 use App\Http\Requests\BlogImageUploadRequest;
 use App\Models\Blog;
 use Intervention\Image\Facades\Image;
@@ -18,13 +19,13 @@ class BlogController extends Controller
 
     public function createPage()
     {
-        return view('blog.edit', ['heading' => '新增', 'subheading' => '新增文章']);
+        return view('blog.editor', ['heading' => '新增', 'subheading' => '新增文章']);
     }
 
     public function editPage($bid)
     {
         $Blog = Blog::find($bid);
-        return view('blog.edit', ['heading' => '編輯', 'subheading' => '編輯文章', 'Blog' => $Blog]);
+        return view('blog.editor', ['heading' => '編輯', 'subheading' => '編輯文章', 'Blog' => $Blog]);
     }
 
     public function viewPage($bid)
@@ -41,8 +42,14 @@ class BlogController extends Controller
         return redirect('/');
     }
 
-    public function edit()
+    public function edit(BlogEditRequest $request)
     {
+        $input = $request->all();
+        $Blog = Blog::find($input['bid']);
+        $Blog->title = $input['title'];
+        $Blog->content = $input['content'];
+        $Blog->save();
+        return redirect("/blog/{$input['bid']}");
         // edit handle
     }
 
