@@ -62,7 +62,7 @@ class BlogController extends Controller
 
     public function throw(BlogRemoveRequest $request)
     {
-        Blog::find($request->get('bid'))->delete();
+        Blog::find($request->bid)->delete();
         return redirect('/');
     }
 

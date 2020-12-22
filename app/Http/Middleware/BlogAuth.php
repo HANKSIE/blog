@@ -17,7 +17,7 @@ class BlogAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        $bid = $request->get('bid');
+        $bid = $request->bid;
         $Blog = Blog::find($bid);
         return session('user')['id'] == $Blog->creator_id ? $next($request) : abort('403');
     }
