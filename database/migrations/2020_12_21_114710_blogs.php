@@ -19,6 +19,7 @@ class Blogs extends Migration
             $table->text('content');
             $table->unsignedInteger('creator_id');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('creator_id')->references('id')->on('users');
         });
     }

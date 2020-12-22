@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BlogEditRequest extends FormRequest
+class BlogRemoveRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,7 @@ class BlogEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'max: 150'],
-            'content' => ['required'],
-            'bid' => ['integer']
+            'bid' => ['required', 'integer'],
         ];
     }
 }

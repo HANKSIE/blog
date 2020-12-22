@@ -16,12 +16,13 @@
             <a class="dropdown-toggle" data-toggle="dropdown">
               <i class="fas fa-cog"></i>
             </a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" href="{{ url("blog/{$Blog->id}/edit") }}">編輯</a> 
-              <form action="{{ url("blog/{$Blog->id}/delete") }}">
-                @method('delete')
+              <form method="POST" action="{{ url("blog/{$Blog->id}/throw") }}">
+                {{ csrf_field() }}
+                @method('DELETE')
                 <input type="hidden" name="bid" value="{{ $Blog->id }}">
-                <input class="dropdown-item" type="submit" value="刪除">
+                <input class="dropdown-item" type="submit" value="放入垃圾桶">
               </form> 
             </div>
           </div>

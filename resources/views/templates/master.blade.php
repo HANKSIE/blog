@@ -39,6 +39,7 @@
               <a class="dropdown-toggle nav-link" data-toggle="dropdown">文章</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{url('/blog/create')}}">新增</a>
+                <a class="dropdown-item" href="{{url('/blog/ashcan')}}">垃圾桶</a>
               </div>
             </li>
           <li class="nav-item">
@@ -67,8 +68,12 @@
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
-              <h1>{{ $heading }}</h1>
-              <span class="subheading">{{ $subheading }}</span>
+              @isset($heading)
+                <h1>{{ $heading }}</h1>
+              @endisset
+              @isset($subheading)
+                <span class="subheading">{{ $subheading }}</span>
+              @endisset 
             </div>
           </div>
         </div>
