@@ -111,7 +111,7 @@ class BlogController extends Controller
             //獲取使用者id
             'user_id' => session('user')['id'], 
             //獲取文章id
-            'post_id' => $Blog->id
+            'blog_id' => $Blog->id
         ];
         //firstOrCreate 判斷 `Zans` 表中是否有這個物件，沒有則建立
         Zans::firstOrCreate($params);
@@ -119,7 +119,7 @@ class BlogController extends Controller
     }
 
     public function unzan($bid){
-    //利用Posts的模型關聯關係 查詢到那條記錄並刪除
+    //利用blog的模型關聯關係 查詢到那條記錄並刪除
     $Blog = Blog::find($bid);
     $Blog->zan(session('user')['id'])->delete();
     return back();

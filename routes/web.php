@@ -38,6 +38,7 @@ Route::group(['prefix' => 'blog'], function () {
     Route::group(['prefix' => 'ashcan', 'middleware' => 'auth.check'], function () {
         Route::get('/', [BlogController::class, 'ashcanPage']);
 
+
         Route::group(['prefix' => '{bid}', 'middleware' => 'blog.owner.is.user'], function () {
             Route::get('/', [BlogController::class, 'ashcanViewPage']);
             Route::put('/restore', [BlogController::class, 'restore']);
@@ -47,14 +48,16 @@ Route::group(['prefix' => 'blog'], function () {
 
     Route::group(['prefix' => '{bid}'], function () {
         Route::get('/', [BlogController::class, 'viewPage']);
+        Route::group(['middleware' => 'auth.check'], function () {
+            Route::get('/zan', [BlogController::class, 'zan']);
+            Route::get('/unzan', [BlogController::class, 'unzan']);
+        });
         Route::group(['middleware' => ['auth.check', 'blog.owner.is.user']], function () {
             Route::get('/edit', [BlogController::class, 'editPage']);
             Route::put('/edit', [BlogController::class, 'edit']);
             Route::delete('/throw', [BlogController::class, 'throw']);
-            Route::get('/zan', [BlogController::class, 'zan']);
-            Route::get('/unzan', [BlogController::class, 'unzan']);
-
         });
     });
+    
 });
 

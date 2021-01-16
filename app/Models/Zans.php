@@ -12,7 +12,9 @@ class Zans extends Model
     protected $table = 'zans';
 
     protected $fillable = [
-        'post_id',
+        'blog_id',
         'user_id',
     ];
+
+
 }
