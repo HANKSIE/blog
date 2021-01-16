@@ -51,6 +51,10 @@ Route::group(['prefix' => 'blog'], function () {
             Route::get('/edit', [BlogController::class, 'editPage']);
             Route::put('/edit', [BlogController::class, 'edit']);
             Route::delete('/throw', [BlogController::class, 'throw']);
+            Route::get('/zan', [BlogController::class, 'zan']);
+            Route::get('/unzan', [BlogController::class, 'unzan']);
+
         });
     });
 });
+
