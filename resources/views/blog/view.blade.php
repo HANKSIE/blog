@@ -49,7 +49,7 @@
           @else
               <a href={{url("blog/{$Blog->id}/zan")}} type="button" class="far fa-thumbs-up"></a>
           @endif
-          有<strong class="text-primary">{{$likes}}</strong>人按讚
+          有<strong class="text-primary">{{$Blog->zans()->count()}}</strong>人按讚
         </div>
       </span>
     </div>

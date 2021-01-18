@@ -30,8 +30,8 @@ class BlogController extends Controller
 
     public function viewPage($bid)
     {
-        $Blog = Blog::find($bid);
-        return view('blog.view', ['Blog' => $Blog, 'likes' => $Blog->zans()->count()]);
+        $Blog = Blog::findOrFail($bid);
+        return view('blog.view', ['Blog' => $Blog]);
     }
 
     public function ashcanPage()
@@ -107,7 +107,7 @@ class BlogController extends Controller
     }
     public function zan($bid)
     {
-        $Blog = Blog::find($bid);
+        $Blog = Blog::withTrashed()->find($bid);
         $params = [
             //獲取使用者id
             'user_id' => session('user')['id'],
@@ -122,7 +122,7 @@ class BlogController extends Controller
     public function unzan($bid)
     {
         //利用blog的模型關聯關係 查詢到那條記錄並刪除
-        $Blog = Blog::find($bid);
+        $Blog = Blog::withTrashed()->find($bid);
         $Blog->zan(session('user')['id'])->delete();
         return back();
     }
