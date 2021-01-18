@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    protected $tables = ['users', 'blogs'];
+    protected $tables = ['users', 'blogs', 'zans'];
 
     /**
      * Seed the application's database.
@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             BlogSeeder::class,
+            ZanSeeder::class,
         ]);
     }
 }
