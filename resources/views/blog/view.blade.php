@@ -43,8 +43,14 @@
             </div>
           </div>
         @endif
+        <div >
+          @if($Blog->zan(session('user')['id'])->exists())
+              <a href={{url("blog/{$Blog->id}/unzan")}} type="button" class="fas fa-thumbs-up"></a>
+          @else
+              <a href={{url("blog/{$Blog->id}/zan")}} type="button" class="far fa-thumbs-up"></a>
+          @endif
+          </div>
       </span>
-      
     </div>
   </div>
   <hr>
